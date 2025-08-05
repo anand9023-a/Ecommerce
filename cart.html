@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cart</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<header>
+  <h1 class="logo">YoungShop</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
+
+<main style="padding:1rem;">
+  <h2>Your Cart</h2>
+  <div id="cart-items"></div>
+  <div id="cart-total" style="margin-top:1rem; font-weight:bold;"></div>
+  <button id="checkout-btn" style="margin-top:1rem; padding:10px 20px; background:#6200ea; color:white; border:none; border-radius:5px; cursor:pointer;">Proceed to Checkout</button>
+</main>
+
+<footer>
+  <p>© 2025 YoungShop. All rights reserved.</p>
+</footer>
+
+<script>
+const products = [
+  {id:1, name:"Trendy T-Shirt", price:499},
+  {id:2, name:"Cool Sneakers", price:1299},
+  {id:3, name:"Stylish Backpack", price:799}
+];
+
+function renderCart() {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const container = document.getElementById("cart-items");
+  container.innerHTML = "";
+
+  if(cart.length === 0) {
+    container.innerHTML = "<p>Your cart is empty.</p>";
+    document.getElementById("cart-total").textContent = "";
+    return;
+  }
+
+  let total = 0;
+
+  cart.forEach((prodId, index) => {
+    const prod = products.find(p => p.id === prodId);
+    if(prod) {
+      total += prod.price;
+      const div = document.createElement("div");
+      div.style.borderBottom = "1px solid #ccc";
+      div.style.padding = "10px 0";
+      div.innerHTML = `
+        <span>${prod.name}</span>
+        <span style="float:right;">₹${prod.price}</span>
+        <button style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; margin-left:10px;" data-index="${index}">Remove</button>
+      `;
+      container.appendChild(div);
+    }
+  });
+
+  document.getElementById("cart-total").textContent = "Total: ₹" + total;
+
+  // Add remove event listeners
+  container.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const idx = e.target.getAttribute("data-index");
+      cart.splice(idx, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+      updateCartCount();
+    });
+  });
+}
+
+function updateCartCount() {
+  const countElem = document.getElementById("cart-count");
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  countElem.textContent = cart.length;
+}
+
+document.getElementById("checkout-btn").addEventListener("click", () => {
+  if((JSON.parse(localStorage.getItem("cart")) || []).length === 0) {
+    alert("Your cart is empty.");
+  } else {
+    window.location.href = "checkout.html";
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderCart();
+  updateCartCount();
+});
+</script>
+</body>
+</html>
