@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<header>
+  <h1 class="logo">YoungShop</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
+
+<main style="padding:1rem;">
+  <h2>Checkout</h2>
+  <form id="checkout-form" style="max-width: 400px;">
+    <label>
+      Full Name:<br />
+      <input type="text" name="fullname" required />
+    </label><br /><br />
+    <label>
+      Address:<br />
+      <textarea name="address" rows="3" required></textarea>
+    </label><br /><br />
+    <label>
+      Payment Method:<br />
+      <select name="payment" required>
+        <option value="">Select</option>
+        <option value="card">Credit/Debit Card</option>
+        <option value="upi">UPI</option>
+        <option value="cod">Cash on Delivery</option>
+      </select>
+    </label><br /><br />
+    <button type="submit" style="padding:10px 20px; background:#6200ea; color:white; border:none; border-radius:5px;">Place Order</button>
+  </form>
+</main>
+
+<footer>
+  <p>© 2025 YoungShop. All rights reserved.</p>
+</footer>
+
+<script>
+function updateCartCount() {
+  const countElem = document.getElementById("cart-count");
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  countElem.textContent = cart.length;
+}
+
+document.getElementById("checkout-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  alert("Order placed successfully! Thank you for shopping.");
+  localStorage.removeItem("cart");  // Clear cart
+  updateCartCount();
+  window.location.href = "index.html";
+});
+
+document.addEventListener("DOMContentLoaded", updateCartCount);
+</script>
+
+</body>
+</html>
