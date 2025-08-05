@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Detail</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<header>
+  <h1 class="logo">YoungShop</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
+
+<main id="product-detail" style="padding:1rem;">
+  <!-- Product details loaded dynamically -->
+</main>
+
+<footer>
+  <p>© 2025 YoungShop. All rights reserved.</p>
+</footer>
+
+<script>
+const products = [
+  {id:1, name:"Trendy T-Shirt", price:499, image:"https://via.placeholder.com/300?text=T-Shirt", desc:"A cool trendy t-shirt perfect for young adults."},
+  {id:2, name:"Cool Sneakers", price:1299, image:"https://via.placeholder.com/300?text=Sneakers", desc:"Comfortable and stylish sneakers."},
+  {id:3, name:"Stylish Backpack", price:799, image:"https://via.placeholder.com/300?text=Backpack", desc:"Spacious and stylish backpack for daily use."}
+];
+
+// Get product id from URL
+const params = new URLSearchParams(window.location.search);
+const id = parseInt(params.get("id"));
+
+const product = products.find(p => p.id === id);
+const container = document.getElementById("product-detail");
+
+if (product) {
+  container.innerHTML = `
+    <img src="${product.image}" alt="${product.name}" style="width:100%; max-width:400px; border-radius:10px;"/>
+    <h2>${product.name}</h2>
+    <p>${product.desc}</p>
+    <h3>₹${product.price}</h3>
+    <button id="add-cart" style="padding:10px 20px; background:#6200ea; color:white; border:none; border-radius:5px; cursor:pointer;">Add to Cart</button>
+  `;
+
+  document.getElementById("add-cart").addEventListener("click", () => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(product.id);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Product added to cart!");
+    document.getElementById("cart-count").textContent = cart.length;
+  });
+} else {
+  container.innerHTML = "<p>Product not found.</p>";
+}
+
+// Update cart count in header
+function updateCartCount() {
+  const countElem = document.getElementById("cart-count");
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  countElem.textContent = cart.length;
+}
+updateCartCount();
+</script>
+
+</body>
+</html>
