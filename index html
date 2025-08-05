@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home - Young Adults E-commerce</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1 class="logo">YoungShop</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Welcome to YoungShop</h2>
+      <p>Trendy & affordable products just for you!</p>
+      <a href="products.html" class="btn">Shop Now</a>
+    </section>
+
+    <section class="featured-products">
+      <h3>Featured Products</h3>
+      <div id="featured-list" class="product-list">
+        <!-- Products loaded by JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 YoungShop. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
